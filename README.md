@@ -1,40 +1,8 @@
-# terraform-provider-cisco-tetration
+# Cisco Secure Workload (Tetration) Terraform Provider
 
-Terraform Provider for managing Cisco Tetration resources.
+Terraform Provider for managing Cisco Secure Workload (Tetration) resources.
 
 ## Usage
-
-### Environment Setup
-
-
-#### Git Setup
-
-1. Make a [Gitlab personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#creating-a-personal-access-token)
-2. Create a `.netrc` file in your home directory:
-
-```bash
-# contents of ~/.netrc:
-
-machine gitlab.com
-login <your_gitlab_username>
-password <your_personal_access_token>
-```
-
-#### Go Setup
-
-Add
-
-```
-export GOPRIVATE="gitlab.com/ignw1/internal/*,bitbucket.org/ignw,github.com/ignw"
-```
-
-to your `~/.bashrc` or `~/.profile`
-
-Source the updated environment configuration:
-
-```
-source ~/.bashrc # or ~/.profile
-```
 
 ### Building and Consuming
 
@@ -64,7 +32,7 @@ Write terraform code using this provider.
 provider "tetration" {
   api_key                  = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   api_secret               = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-  api_url                  = "https://ignwpov.tetrationpreview.com"
+  api_url                  = "https://tenant.tetrationpreview.com"
   disable_tls_verification = false
 }
 
