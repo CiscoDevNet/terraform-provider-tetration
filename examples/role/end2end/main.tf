@@ -1,24 +1,24 @@
 provider "tetration" {
   api_key                  = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   api_secret               = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-  api_url                  = "https://ignwpov.tetrationpreview.com"
+  api_url                  = "https://acme.tetrationpreview.com"
   disable_tls_verification = false
 }
 
 resource "tetration_user" "user_one" {
   enable_existing = true
-  email        = "ehibbs+tetration100@ignw.io"
-  first_name   = "eric"
-  last_name    = "hibbs"
-  app_scope_id = "5ce71503497d4f2c23af85b7"
+  email           = "joe+100@acme.com"
+  first_name      = "Joe"
+  last_name       = "Bloggs 100"
+  app_scope_id    = "5ce71503497d4f2c23af85b7"
 }
 
 resource "tetration_user" "user_two" {
   enable_existing = true
-  email        = "ehibbs+tetration200@ignw.io"
-  first_name   = "eric"
-  last_name    = "hibbs"
-  app_scope_id = "5ce71503497d4f2c23af85b7"
+  email           = "joe+200@acme.com"
+  first_name      = "Joe"
+  last_name       = "Bloggs 200"
+  app_scope_id    = "5ce71503497d4f2c23af85b7"
 }
 
 resource "tetration_scope" "scope" {

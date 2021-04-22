@@ -63,7 +63,7 @@ func resourceTetrationTagCreate(d *schema.ResourceData, meta interface{}) error 
 	if tenantName == "" {
 		tenantURL := client.Config.APIURL
 		// strip protocol and extract the tenant name/subdomain from the url
-		// e.g. https://ignwpov.tetrationpreview.com => ignwpov
+		// e.g. https://acme.tetrationpreview.com => acme
 		tenantName = strings.Split(strings.Split(tenantURL, "://")[1], ".")[0]
 	}
 	attributes := d.Get("attributes").(map[string]interface{})

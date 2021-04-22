@@ -1,7 +1,7 @@
 provider "tetration" {
-  api_key                  = "70b1834a4ae948c9b55940803d00db8d"
-  api_secret               = "6087d599981cd62734c5ab2d36352c834af66f75"
-  api_url                  = "https://ignwpov.tetrationpreview.com"
+  api_key                  = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  api_secret               = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  api_url                  = "https://acme.tetrationpreview.com"
   disable_tls_verification = false
 }
 

@@ -1,7 +1,7 @@
 provider "tetration" {
   api_key                  = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   api_secret               = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-  api_url                  = "https://ignwpov.tetrationpreview.com"
+  api_url                  = "https://acme.tetrationpreview.com"
   disable_tls_verification = false
 }
 
