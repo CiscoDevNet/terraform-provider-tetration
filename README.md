@@ -1,8 +1,40 @@
 # Cisco Secure Workload (Tetration) Terraform Provider
 
+> **Note:** this Terraform provider is now publically available on the [Terraform Registry](https://registry.terraform.io/providers/CiscoDevNet/tetration/latest).
+ 
 Terraform Provider for managing Cisco Secure Workload (Tetration) resources.
 
 ## Usage
+
+### Using the Terraform Registry
+
+Create a `main.tf` file with the following content, save, and run `terraform init` from a terminal window in the same directory as `main.tf`:
+
+```hcl
+terraform {
+  required_providers {
+    tetration = {
+      source = "CiscoDevNet/tetration"
+      version = "0.1.0"
+    }
+  }
+}
+
+provider "tetration" {
+  api_key                  = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  api_secret               = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  api_url                  = "https://tenant.tetrationpreview.com"
+  disable_tls_verification = false
+}
+
+resource "tetration_filter" "filter" {
+  name            = "Terraform created filter"
+  query_type      = "eq"
+  query_field     = "ip"
+  query_value     = "10.0.0.1"
+  app_scope_id = "5ceea87b497d4f753baf85bc"
+}
+```
 
 ### Building and Consuming
 
