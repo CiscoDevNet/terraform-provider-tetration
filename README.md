@@ -38,27 +38,27 @@ resource "tetration_filter" "filter" {
 
 ### Building and Consuming
 
-Build the plugin
+1. Build the plugin
 
 ```bash
 make build
 ```
 
-Copy the plugin to your terraform plugin directory, e.g.
+2. Copy the plugin to your terraform plugin directory, e.g.
 
 ```
 mkdir ~/.terraform.d/plugins/darwin_amd64
 cp terraform-provider-tetration ~/.terraform.d/plugins/darwin_amd64
 ```
 
-Add plugin to terraform for the current module you are working on
+3.Add plugin to terraform for the current module you are working on
 
 ```bash
 cd /path/to/terraform/module
 terraform init -plugin-dir ~/.terraform.d/plugins/darwin_amd64
 ```
 
-Write terraform code using this provider.
+4.Write terraform code using this provider.
 
 ```hcl
 provider "tetration" {
