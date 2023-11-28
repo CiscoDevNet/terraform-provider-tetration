@@ -40,14 +40,12 @@ func resourceTetrationApplication() *schema.Resource {
 				Type:        schema.TypeBool,
 				Optional:    true,
 				ForceNew:    true,
-				Default:     true,
 				Description: "(Optional) Indicates if “dynamic mode” is used for the application. In dynamic mode, an ADM run creates one or more candidate queries for each cluster. Default value is true.",
 			},
 			"strict_validation": {
 				Type:        schema.TypeBool,
 				Optional:    true,
 				ForceNew:    true,
-				Default:     false,
 				Description: "(Optional) Return an error if there are unknown keys/attributes in the uploaded data. Useful for catching misspelled keys. Default value is false.",
 			},
 			"primary": {
@@ -146,12 +144,7 @@ func resourceTetrationApplication() *schema.Resource {
 						"consumer_filter_name": {
 							Type:        schema.TypeString,
 							Optional:    true,
-							Description: "Named filter. If more than one filter with the same name exists you must specify consumer_filter_id. Only one of consumer_filter_id, consumer_filter_name or consumer_scope_name can be specified.",
-						},
-						"consumer_scope_name": {
-							Type:        schema.TypeString,
-							Optional:    true,
-							Description: "Named application scope. If more than one application scope with the same name exists you must specify consumer_filter_id. Only one of consumer_filter_id, consumer_filter_name or consumer_scope_name can be specified.",
+							Description: "Named filter. If more than one filter with the same name exists you must specify consumer_filter_id.",
 						},
 						"provider_filter_id": {
 							Type:        schema.TypeString,
@@ -161,12 +154,7 @@ func resourceTetrationApplication() *schema.Resource {
 						"provider_filter_name": {
 							Type:        schema.TypeString,
 							Optional:    true,
-							Description: "Named filter. If more than one filter with the same name exists you must specify consumer_filter_id. Only one of consumer_filter_id, consumer_filter_name or consumer_scope_name can be specified.",
-						},
-						"provider_scope_name": {
-							Type:        schema.TypeString,
-							Optional:    true,
-							Description: "Named application scope. If more than one application scope with the same name exists you must specify consumer_filter_id. Only one of consumer_filter_id, consumer_filter_name or consumer_scope_name can be specified.",
+							Description: "Named filter. If more than one filter with the same name exists you must specify consumer_filter_id.",
 						},
 						"action": {
 							Type:        schema.TypeString,
@@ -187,11 +175,11 @@ func resourceTetrationApplication() *schema.Resource {
 									"port_range": {
 										Type:        schema.TypeList,
 										Required:    true,
+										MinItems: 2,
+										MaxItems: 2,
 										Description: "Inclusive range of ports; for example, [80, 80] or [5000, 6000].",
 										Elem: &schema.Schema{
 											Type:     schema.TypeInt,
-											MinItems: 2,
-											MaxItems: 2,
 										},
 									},
 									"approved": {
@@ -221,12 +209,7 @@ func resourceTetrationApplication() *schema.Resource {
 						"consumer_filter_name": {
 							Type:        schema.TypeString,
 							Optional:    true,
-							Description: "Named filter. If more than one filter with the same name exists you must specify consumer_filter_id. Only one of consumer_filter_id, consumer_filter_name or consumer_scope_name can be specified.",
-						},
-						"consumer_scope_name": {
-							Type:        schema.TypeString,
-							Optional:    true,
-							Description: "Named application scope. If more than one application scope with the same name exists you must specify consumer_filter_id. Only one of consumer_filter_id, consumer_filter_name or consumer_scope_name can be specified.",
+							Description: "Named filter. If more than one filter with the same name exists you must specify consumer_filter_id. ",
 						},
 						"provider_filter_id": {
 							Type:        schema.TypeString,
@@ -236,12 +219,7 @@ func resourceTetrationApplication() *schema.Resource {
 						"provider_filter_name": {
 							Type:        schema.TypeString,
 							Optional:    true,
-							Description: "Named filter. If more than one filter with the same name exists you must specify consumer_filter_id. Only one of consumer_filter_id, consumer_filter_name or consumer_scope_name can be specified.",
-						},
-						"provider_scope_name": {
-							Type:        schema.TypeString,
-							Optional:    true,
-							Description: "Named application scope. If more than one application scope with the same name exists you must specify consumer_filter_id. Only one of consumer_filter_id, consumer_filter_name or consumer_scope_name can be specified.",
+							Description: "Named filter. If more than one filter with the same name exists you must specify consumer_filter_id.",
 						},
 						"action": {
 							Type:        schema.TypeString,
@@ -263,11 +241,11 @@ func resourceTetrationApplication() *schema.Resource {
 									"port_range": {
 										Type:        schema.TypeList,
 										Required:    true,
+										MinItems: 2,
+										MaxItems: 2,
 										Description: "Inclusive range of ports; for example, [80, 80] or [5000, 6000].",
 										Elem: &schema.Schema{
 											Type:     schema.TypeInt,
-											MinItems: 2,
-											MaxItems: 2,
 										},
 									},
 									"approved": {
@@ -459,13 +437,13 @@ type policyFilterQuery struct {
 
 func policyFilterIdForQuery(apiClient client.Client, query policyFilterQuery) (string, error) {
 	if query.AbsoluteId == "" && query.FilterName == "" && query.ScopeName == "" {
-		return "", errors.New("One  of policy filter id, filter name or scope name must be specified")
+		return "", errors.New("One  of policy filter id & filter name must be specified")
 	}
 	if query.AbsoluteId != "" && (query.FilterName != "" || query.ScopeName != "") {
-		return "", errors.New("Only one of policy filter id, filter name or scope name can be specified")
+		return "", errors.New("Only one of policy filter id & filter name can be specified")
 	}
 	if query.FilterName != "" && query.ScopeName != "" {
-		return "", errors.New("Only one of policy filter id, filter name or scope name can be specified")
+		return "", errors.New("Only one of policy filter id & filter name can be specified")
 	}
 	if query.AbsoluteId != "" {
 		return query.AbsoluteId, nil
@@ -515,7 +493,6 @@ func policyFromTerraform(apiClient client.Client, tf terraformObject) (tetration
 	consumingPolicyFilterQuery := policyFilterQuery{
 		AbsoluteId: tf["consumer_filter_id"].(string),
 		FilterName: tf["consumer_filter_name"].(string),
-		ScopeName:  tf["consumer_scope_name"].(string),
 	}
 	filterId, err := policyFilterIdForQuery(apiClient, consumingPolicyFilterQuery)
 	if err != nil {
@@ -525,7 +502,6 @@ func policyFromTerraform(apiClient client.Client, tf terraformObject) (tetration
 	providingPolicyFilterQuery := policyFilterQuery{
 		AbsoluteId: tf["provider_filter_id"].(string),
 		FilterName: tf["provider_filter_name"].(string),
-		ScopeName:  tf["provider_scope_name"].(string),
 	}
 	filterId, err = policyFilterIdForQuery(apiClient, providingPolicyFilterQuery)
 	if err != nil {
