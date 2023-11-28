@@ -320,14 +320,15 @@ func resourceTetrationApplication() *schema.Resource {
 func resourceTetrationApplicationCreate(d *schema.ResourceData, meta interface{}) error {
 	client := meta.(client.Client)
 	isPrimaryApplication := d.Get("primary").(bool)
+	tempAppScopeId := d.Get("app_scope_id").(string)
 	if isPrimaryApplication {
-		existingApplications, err := client.ListApplications()
+		existingApplications, err := client.ListApplications(tempAppScopeId)
 		if err != nil {
 			return err
 		}
 		for _, existingApplication := range existingApplications {
 			if existingApplication.Primary {
-				return errors.New(fmt.Sprintf("Existing application %s exists for scope %s that is marked as primary. Please demote the workspace to secondary before continuing.", existingApplication.Name, existingApplication.AppScopeId))
+				return errors.New(fmt.Sprintf("Existing application '' %s '' exists for scope '' %s '' that is marked as primary. Please demote the workspace to secondary before continuing.", existingApplication.Name, existingApplication.AppScopeId))
 			}
 		}
 	}
