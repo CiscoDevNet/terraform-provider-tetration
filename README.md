@@ -27,12 +27,19 @@ provider "tetration" {
   disable_tls_verification = false
 }
 
+
 resource "tetration_filter" "filter" {
-  name            = "Terraform created filter"
-  query_type      = "eq"
-  query_field     = "ip"
-  query_value     = "10.0.0.1"
-  app_scope_id = "5ceea87b497d4f753baf85bc"
+  name         = "Terraform created filter"
+  query        = <<EOF
+                    {
+                      "type": "eq",
+                      "field": "ip",
+                      "value": "10.0.0.1"
+                    }
+          EOF
+  app_scope_id = "5ed6890c497d4f55eb5c585c"
+  primary      = true
+  public       = false
 }
 ```
 
