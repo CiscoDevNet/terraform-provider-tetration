@@ -31,7 +31,6 @@ resource "tetration_role" "role1" {
 	 access_app_scope_id = <ID_OF_SCOPE>
     name = "read_role"
     access_type = "scope_read"
-    user_ids = ["<USER_IDS>"]
     description = "Demo description for role"
 }
 ```
